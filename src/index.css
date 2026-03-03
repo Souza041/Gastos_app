@@ -1,0 +1,189 @@
+:root{
+  --bg: #0b0f17;
+  --panel: rgba(255,255,255,.06);
+  --panel2: rgba(255,255,255,.08);
+  --border: rgba(255,255,255,.10);
+  --text: rgba(255,255,255,.92);
+  --muted: rgba(255,255,255,.65);
+
+  --good: #22c55e;
+  --warn: #f59e0b;
+  --bad: #ef4444;
+
+  --radius: 16px;
+  --shadow: 0 12px 40px rgba(0,0,0,.35);
+}
+
+*{ box-sizing:border-box; }
+html, body { height: 100%; }
+body{
+  margin:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  background:
+    radial-gradient(1000px 700px at 10% 10%, rgba(56,189,248,.18), transparent 55%),
+    radial-gradient(900px 600px at 80% 20%, rgba(168,85,247,.16), transparent 60%),
+    radial-gradient(900px 600px at 30% 80%, rgba(34,197,94,.12), transparent 60%),
+    var(--bg);
+  color: var(--text);
+}
+
+a{ color:inherit; }
+button, input, select, textarea{ font:inherit; color:inherit; }
+
+.app-card{
+  background: linear-gradient(180deg, var(--panel2), var(--panel));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.app-muted{ color: var(--muted); }
+
+.app-btn{
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.06);
+  border-radius: 14px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: transform .06s ease, background .15s ease, border-color .15s ease;
+}
+.app-btn:hover{ background: rgba(255,255,255,.10); }
+.app-btn:active{ transform: translateY(1px); }
+
+.app-btn-primary{
+  background: rgba(56,189,248,.18);
+  border-color: rgba(56,189,248,.35);
+}
+.app-btn-primary:hover{ background: rgba(56,189,248,.26); }
+
+.app-btn-danger{
+  background: rgba(239,68,68,.12);
+  border-color: rgba(239,68,68,.25);
+}
+.app-btn-danger:hover{ background: rgba(239,68,68,.18); }
+
+.app-input{
+  width: 100%;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.04);
+  border-radius: 14px;
+  padding: 10px 12px;
+  outline: none;
+}
+.app-input:focus{
+  border-color: rgba(56,189,248,.45);
+  box-shadow: 0 0 0 4px rgba(56,189,248,.10);
+}
+
+.app-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.06);
+  color: var(--muted);
+}
+
+.table{
+  width:100%;
+  border-collapse: collapse;
+}
+.table th{
+  text-align:left;
+  font-size: 12px;
+  letter-spacing: .02em;
+  color: var(--muted);
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.table td{
+  padding: 12px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.table tr:hover td{
+  background: rgba(255,255,255,.03);
+}
+/* ===== SELECT DARK FIX ===== */
+
+.app-input,
+.app-input select {
+  color: var(--text);
+}
+
+/* dropdown */
+.app-input option {
+  background: #0f172a; /* fundo dark */
+  color: #e5e7eb;      /* texto claro */
+}
+
+/* quando focado */
+.app-input:focus {
+  color: var(--text);
+}
+/* remove seta padrão */
+.app-input[type="select"],
+.app-input select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='%23e5e7eb' viewBox='0 0 20 20'%3E%3Cpath d='M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.24 4.5a.75.75 0 01-1.08 0l-4.24-4.5a.75.75 0 01.02-1.06z'/%3E%3C/svg%3E");
+
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 18px;
+  padding-right: 36px;
+}
+/* ===== MONEY COLORS ===== */
+.money-income { color: var(--good); }
+.money-expense { color: var(--bad); }
+.money-neutral { color: var(--text); }
+
+/* saldo: verde se positivo, vermelho se negativo */
+.money-positive { color: var(--good); }
+.money-negative { color: var(--bad); }
+
+/* valor alinhado e com números bonitos */
+.money {
+  font-variant-numeric: tabular-nums;
+  font-weight: 900;
+}
+
+/* ===== COLOR PICKER CUSTOM ===== */
+
+.color-picker-wrap {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.color-picker-native {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.color-picker-preview {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  transition: transform .08s ease, box-shadow .15s ease;
+  z-index: 1;
+}
+
+.color-picker-wrap:hover .color-picker-preview {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+}
