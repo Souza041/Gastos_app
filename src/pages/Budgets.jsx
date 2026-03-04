@@ -162,7 +162,7 @@ export default function Budgets() {
         </div>
       </div>
 
-      <form onSubmit={upsertBudget} style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+      <form className="form-row" onSubmit={upsertBudget}>
         <select className="app-input" value={categoryId} onChange={(e) => setCategoryId(e.target.value)} style={{ minWidth: 240 }}>
           <option value="">Selecione a categoria</option>
           {categories.map((c) => (
@@ -187,8 +187,8 @@ export default function Budgets() {
       ) : budgets.length === 0 ? (
         <div>Nenhum orçamento definido para este mês.</div>
       ) : (
-        <div style={{ border: "1px solid #e5e5e5", borderRadius: 12, overflow: "hidden" }}>
-          <table width="100%" cellPadding="10" style={{ borderCollapse: "collapse" }}>
+        <div className="app-card table-wrap" style={{ border: "1px solid #e5e5e5", borderRadius: 12, overflow: "hidden" }}>
+          <table className="table" width="100%" cellPadding="10" style={{ borderCollapse: "collapse" }}>
             <thead>
               <tr style={{ textAlign: "left", background: "rgba(0,0,0,0.04)" }}>
                 <th>Categoria</th>

@@ -187,3 +187,83 @@ button, input, select, textarea{ font:inherit; color:inherit; }
   transform: translateY(-1px);
   box-shadow: 0 10px 30px rgba(0,0,0,.35);
 }
+
+/* ===== RESPONSIVE SHELL ===== */
+
+.app-shell{
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 16px;
+  padding: 16px;
+  min-height: 100vh;
+}
+
+.app-sidebar{
+  padding: 16px;
+  position: sticky;
+  top: 16px;
+  height: calc(100vh - 32px);
+  overflow: auto;
+}
+
+.app-nav{
+  display: grid;
+  gap: 8px;
+}
+
+.app-sidebar-footer{
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,.10);
+}
+
+/* Mobile: sidebar vira header */
+@media (max-width: 900px){
+  .app-shell{
+    grid-template-columns: 1fr;
+    padding: 12px;
+  }
+
+  .app-sidebar{
+    position: relative;
+    top: 0;
+    height: auto;
+  }
+
+  .app-nav{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Mobile pequeno: nav em 1 coluna */
+@media (max-width: 520px){
+  .app-nav{
+    grid-template-columns: 1fr;
+  }
+}
+
+.table-wrap{
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.table{
+  min-width: 760px; /* força scroll ao invés de esmagar */
+}
+
+.form-row{
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.form-row > *{
+  flex: 1 1 180px;
+}
+
+@media (max-width: 520px){
+  .form-row > *{
+    flex: 1 1 100%;
+  }
+}

@@ -542,17 +542,17 @@ export default function Transactions() {
         <h1 style={{ margin: 0 }}>Lançamentos</h1>
 
         {/* MonthPicker */}
-        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+        <div className="form-row" style={{ justifyContent: "flex-end" }}>
 
           <button className="app-btn" type="button" onClick={exportMonthCSV}>Exportar CSV mês</button>
 
           <button className="app-btn" type="button" onClick={exportYarCSV}>Exportar CSV ano</button>
 
-          <button className="app-btn" type="button" onClick={generateRecurrencesForSelectedMonth}>
+          <button className="app-btn app-btn-primary" type="button" onClick={generateRecurrencesForSelectedMonth}>
             Gerar recorrências do mês
           </button>
 
-          <button className="app-btn" type="button" onClick={undoRecurrencesForSelectedMonth}>
+          <button className="app-btn app-btn-danger" type="button" onClick={undoRecurrencesForSelectedMonth}>
             Desfazer recorrências do mês
           </button>
 
@@ -583,7 +583,7 @@ export default function Transactions() {
       </div>
 
       {/* Form adicionar */}
-      <form onSubmit={addTransaction} style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+      <form className="form-row" onSubmit={addTransaction}>
         <select className="app-input" value={type} onChange={(e) => setType(e.target.value)}>
           <option value="expense">Saída</option>
           <option value="income">Entrada</option>
@@ -627,7 +627,7 @@ export default function Transactions() {
       ) : items.length === 0 ? (
         <div>Nenhum lançamento neste mês.</div>
       ) : (
-        <div style={{ border: "1px solid #e5e5e5", borderRadius: 12, overflow: "hidden" }}>
+        <div className="app-card table-wrap" style={{ border: "1px solid #e5e5e5", borderRadius: 12, overflow: "hidden" }}>
           <table className="table" width="100%" cellPadding="10" style={{ borderCollapse: "collapse" }}>
             <thead>
               <tr style={{ textAlign: "left", background: "rgba(0,0,0,0.04)" }}>

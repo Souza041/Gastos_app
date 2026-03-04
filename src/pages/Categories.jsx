@@ -76,7 +76,7 @@ export default function Categories() {
     <div style={{ display: "grid", gap: 16 }}>
       <h1>Categorias</h1>
 
-      <form onSubmit={add} style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+      <form className="form-row" onSubmit={add}>
         <input className="app-input" value={name} onChange={(e) => setName(e.target.value)} placeholder="Nome (ex: Alimentação)" />
         <input className="app-input" value={icon} onChange={(e) => setIcon(e.target.value)} placeholder="Ícone (texto)" />
         <div style={{ display: "flex", alignItems: "center", gap: 10}}>

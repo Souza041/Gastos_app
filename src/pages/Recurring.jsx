@@ -130,7 +130,7 @@ export default function Recurring() {
     <div style={{ display: "grid", gap: 16 }}>
       <h1 style={{ margin: 0 }}>Recorrências</h1>
 
-      <form onSubmit={add} className="app-card" style={{ display: "grid", gap: 12, padding: 14 }}>
+      <form onSubmit={add} className="app-card form-row">
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
           <label style={{ display: "inline-flex", gap: 8, alignItems: "center" }}>
             <input className="app-input" type="checkbox" checked={active} onChange={(e) => setActive(e.target.checked)} />
@@ -178,8 +178,8 @@ export default function Recurring() {
       ) : rules.length === 0 ? (
         <div>Nenhuma recorrência cadastrada.</div>
       ) : (
-        <div style={{ border: "1px solid #e5e5e5", borderRadius: 12, overflow: "hidden" }}>
-          <table width="100%" cellPadding="10" style={{ borderCollapse: "collapse" }}>
+        <div className="app-card table-wrap" style={{ border: "1px solid #e5e5e5", borderRadius: 12, overflow: "hidden" }}>
+          <table className="table" width="100%" cellPadding="10" style={{ borderCollapse: "collapse" }}>
             <thead>
               <tr style={{ textAlign: "left", background: "rgba(0,0,0,0.04)" }}>
                 <th>Status</th>
