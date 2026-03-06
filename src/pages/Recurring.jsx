@@ -128,7 +128,9 @@ export default function Recurring() {
 
   return (
     <div style={{ display: "grid", gap: 16 }}>
-      <h1 style={{ margin: 0 }}>Recorrências</h1>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+        <h1 style={{ margin: 0 }}>Recorrências</h1>
+      </div>
 
       <form onSubmit={add} className="app-card form-row">
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>

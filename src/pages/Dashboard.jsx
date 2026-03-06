@@ -9,6 +9,8 @@ import {
   YAxis,
   Tooltip,
   CartesianGrid,
+  LineChart,
+  Line,
 } from "recharts";
 
 function toISODate(d) {
@@ -67,6 +69,29 @@ function moneyClassForBalance(value) {
   return v >= 0 ? "money money-positive" : "money money-negative";
 }
 
+function balanceStatusLabel(value) {
+  const v = Number(value) || 0;
+  return v >= 0 ? "positivo" : "negativo";
+}
+
+function balanceHealthWidth(income, expense) {
+  const inc = Number(income) || 0;
+  const exp = Number(expense) || 0;
+
+  if (inc <= 0 && exp <= 0) return 0;
+  if (inc <= 0) return 100;
+
+  const ratio = (exp / inc) * 100;
+  return Math.max(0, Math.min(100, ratio));
+}
+
+function balanceHealthMessage(balance) {
+  const v = Number(balance) || 0;
+  if (v > 0) return "Você fechou o mês no azul.";
+  if (v < 0) return "Suas saídas passaram das entradas.";
+  return "Seu mês está zerado.";
+}
+
 export default function Dashboard() {
   const { user } = useAuth();
 
@@ -74,6 +99,8 @@ export default function Dashboard() {
   const [year, setYear] = useState(now.getFullYear());
   const [month, setMonth] = useState(now.getMonth()); // 0..11
   const month1 = month + 1; // 1..12
+
+  const [history6, setHistory6] = useState([]);
 
   const currRange = useMemo(() => monthStartEnd(year, month), [year, month]);
 
@@ -142,7 +169,7 @@ export default function Dashboard() {
     setLoading(true);
 
     try {
-      const [cRes, currData, prevData, bData] = await Promise.all([
+      const [cRes, currData, prevData, bData, histData] = await Promise.all([
         supabase
           .from("categories")
           .select("id,name,color")
@@ -151,6 +178,7 @@ export default function Dashboard() {
         loadMonthTx(currRange),
         loadMonthTx(prevRange),
         loadBudgets(year, month1),
+        loadHistory6Months(),
       ]);
 
       if (cRes.error) throw cRes.error;
@@ -159,6 +187,7 @@ export default function Dashboard() {
       setCurrTx(currData);
       setPrevTx(prevData);
       setBudgets(bData);
+      setHistory6(histData);
     } catch (e) {
       console.error(e);
       alert(e.message || "Erro ao carregar dados");
@@ -336,6 +365,60 @@ export default function Dashboard() {
     return "#b91c1c"; // vermelho
   }
 
+  function getLastNMonths(year, monthIndex, count = 6) {
+    const result = [];
+
+    for (let i = count - 1; i >= 0; i--) {
+      const d = new Date(year, monthIndex - i, 1);
+      result.push({
+        year: d.getFullYear(),
+        monthIndex: d.getMonth(),
+        month1: d.getMonth() + 1,
+        label: d.toLocaleDateString("pt-BR", { month: "short", year: "2-digit" }),
+        ...monthStartEnd(d.getFullYear(), d.getMonth()),
+      });
+    }
+
+    return result;
+  }
+
+  async function loadHistory6Months() {
+    if (!user) return [];
+
+    const months = getLastNMonths(year, month, 6);
+
+    const results = await Promise.all(
+      months.map(async (m) => {
+        const { data, error } = await supabase
+          .from("transactions")
+          .select("type,amount,date")
+          .eq("user_id", user.id)
+          .gte("date", m.start)
+          .lt("date", m.end);
+
+        if (error) throw error;
+
+        let income = 0;
+        let expense = 0;
+
+        for (const row of data ?? []) {
+          const v = Number(row.amount) || 0;
+          if (row.type === "income") income += v;
+          else expense += v;
+        }
+
+        return {
+          label: m.label,
+          income: Number(income.toFixed(2)),
+          expense: Number(expense.toFixed(2)),
+          balance: Number((income - expense).toFixed(2)),
+        };
+      })
+    );
+
+    return results;
+  }
+
   return (
     <div style={{ display: "grid", gap: 16 }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
@@ -370,9 +453,44 @@ export default function Dashboard() {
         </div>
 
         <div className="app-card" style={{ padding: 14 }}>
-          <div className="app-muted" style={{ fontSize: 12 }}>Saldo</div>
-          <div className={`money ${moneyClassForBalance(currTotals.balance)}`} style={{ fontSize: 22 }}>{formatBRL(currTotals.balance)}</div>
-          <CompareNote curr={currTotals.balance} prev={prevTotals.balance} kind="balance" />
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+            <div className="app-muted" style={{ fontSize: 12 }}>Saldo</div>
+
+            <span
+              className="app-badge"
+              style={{
+                color: currTotals.balance >= 0 ? "#22c55e" : "#ef4444",
+                borderColor: currTotals.balance >= 0 ? "rgba(34,197,94,.25)" : "rgba(239,68,68,.25)",
+                background: currTotals.balance >= 0 ? "rgba(34,197,94,.10)" : "rgba(239,68,68,.10)",
+              }}
+            >
+              {balanceStatusLabel(currTotals.balance)}
+            </span>
+          </div>
+
+          <div
+            className={`money ${moneyClassForBalance(currTotals.balance)}`} 
+            style={{ fontSize: 22 }}
+          >
+            {formatBRL(currTotals.balance)}
+          </div>
+
+          <CompareNote 
+            curr={currTotals.balance} 
+            prev={prevTotals.balance} 
+            kind="balance" 
+          />
+
+          <div className="balance-health-track">
+            <div
+              className={`balance-health-fill ${currTotals.balance >= 0 ? "positive" : "negative"}`}
+              style={{ width: `${balanceHealthWidth(currTotals.income, currTotals.expense)}%` }}
+            />
+          </div>
+
+          <div className="app-muted" style={{ fontSize: 12, marginTop: 8 }}>
+            {balanceHealthMessage(currTotals.balance)}
+          </div>
         </div>
       </div>
 
@@ -397,6 +515,31 @@ export default function Dashboard() {
               </ResponsiveContainer>
             </div>
           </div>
+
+          {!loading && (
+            <div className="app-card" style={{ padding: 14 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 10}}>
+                <div style={{ fontWeight: 900 }}>Últimos 6 meses</div>
+                <div className="app-muted" style={{ fontSize: 12 }}>
+                  entradas, saídas e saldo
+                </div>
+              </div>
+
+              <div style={{ height: 280, marginTop: 10 }}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={history6}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="label" />
+                    <YAxis />
+                    <Tooltip formatter={(v) => formatBRL(Number(v))} />
+                      <Line type="monotone" dataKey="income" strokeWidth={2} dot />
+                      <Line type="monotone" dataKey="expense" strokeWidth={2} dot />
+                      <Line type="monotone" dataKey="balance" strokeWidth={3} dot />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          )}
 
           {/* Direita: Categorias + Orçamentos */}
           <div style={{ display: "grid", gap: 12 }}>

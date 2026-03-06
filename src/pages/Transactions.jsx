@@ -576,9 +576,9 @@ export default function Transactions() {
           <div className={moneyClassForTransaction("expense")} style={{ fontSize: 22}}>{formatBRL(totals.expense)}</div>
         </div>
 
-        <div className="app-card" style={{ padding: 12, minWidth: 220 }}>
+        <div className="app-card" style={{ padding: 14, minWidth: 220 }}>
           <div className="app-muted" style={{ fontSize: 12 }}>Saldo</div>
-          <div className={moneyClassForBalance("balance")} style={{ fontSize: 22 }}>{formatBRL(totals.balance)}</div>
+          <div className={`money ${moneyClassForBalance(totals.balance)}`} style={{ fontSize: 20 }}>{formatBRL(totals.balance)}</div>
         </div>
       </div>
 

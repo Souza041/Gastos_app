@@ -13,11 +13,27 @@ const linkStyle = ({ isActive }) => ({
   background: isActive ? "rgba(56,189,248,.14)" : "rgba(255,255,255,.04)",
 });
 
+const mobileLinkStyle = ({ isActive }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: 4,
+  textDecoration: "none",
+  color: isActive ? "rgba(255,255,255,.95)" : "rgba(255,255,255,.60)",
+  fontSize: 12,
+  fontWeight: isActive ? 700 : 500,
+  padding: "8px 6px",
+  borderRadius: 12,
+  background: isActive ? "rgba(56,189,248,.12)" : "transparent",
+});
+
 export default function AppShell() {
   const { user, signOut } = useAuth();
 
   return (
     <div className="app-shell">
+      {/* Sidebar desktop */}
       <aside className="app-card app-sidebar">
         <div style={{ fontWeight: 900, fontSize: 18, marginBottom: 12 }}>Gastos</div>
         <div className="app-muted" style={{ fontSize: 12, marginBottom: 16 }}>
@@ -39,9 +55,38 @@ export default function AppShell() {
         </div>
       </aside>
 
+      {/* Conteúdo */}
       <main className="app-main">
         <Outlet />
       </main>
+
+      {/* Bottom nav mobile */}
+      <nav className="app-bottom-nav">
+        <NavLink to="/dashboard" style={mobileLinkStyle}>
+          <span>🏠</span>
+          <span>Início</span>
+        </NavLink>
+
+        <NavLink to="/transactions" style={mobileLinkStyle}>
+          <span>💸</span>
+          <span>Lançamentos</span>
+        </NavLink>
+
+        <NavLink to="/categories" style={mobileLinkStyle}>
+          <span>🏷️</span>
+          <span>Categorias</span>
+        </NavLink>
+
+        <NavLink to="/budgets" style={mobileLinkStyle}>
+          <span>📊</span>
+          <span>Orçamentos</span>
+        </NavLink>
+
+        <NavLink to="/recurring" style={mobileLinkStyle}>
+          <span>🔁</span>
+          <span>Recorrências</span>
+        </NavLink>
+      </nav>
     </div>
   );
 }
