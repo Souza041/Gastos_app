@@ -15,17 +15,18 @@ const linkStyle = ({ isActive }) => ({
 
 const mobileLinkStyle = ({ isActive }) => ({
   display: "flex",
-  flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
-  gap: 4,
   textDecoration: "none",
-  color: isActive ? "rgba(255,255,255,.95)" : "rgba(255,255,255,.60)",
+  color: isActive ? "rgba(255,255,255,.95)" : "rgba(255,255,255,.65)",
   fontSize: 12,
-  fontWeight: isActive ? 700 : 500,
-  padding: "8px 6px",
+  fontWeight: isActive ? 800 : 600,
+  padding: "10px 6px",
   borderRadius: 12,
   background: isActive ? "rgba(56,189,248,.12)" : "transparent",
+  minHeight: 48,
+  textAlign: "center",
+  whiteSpace: "nowrap",
 });
 
 export default function AppShell() {
@@ -63,28 +64,23 @@ export default function AppShell() {
       {/* Bottom nav mobile */}
       <nav className="app-bottom-nav">
         <NavLink to="/dashboard" style={mobileLinkStyle}>
-          <span>🏠</span>
-          <span>Início</span>
+          <span className="mobile-nav-icon">Início</span>
         </NavLink>
 
         <NavLink to="/transactions" style={mobileLinkStyle}>
-          <span>💸</span>
-          <span>Lançamentos</span>
+          <span className="mobile-nav-icon">Lanç.</span>
         </NavLink>
 
         <NavLink to="/categories" style={mobileLinkStyle}>
-          <span>🏷️</span>
-          <span>Categorias</span>
+          <span className="mobile-nav-icon">Categorias</span>
         </NavLink>
 
         <NavLink to="/budgets" style={mobileLinkStyle}>
-          <span>📊</span>
-          <span>Orçamentos</span>
+          <span className="mobile-nav-icon">Orçam.</span>
         </NavLink>
 
         <NavLink to="/recurring" style={mobileLinkStyle}>
-          <span>🔁</span>
-          <span>Recorrências</span>
+          <span className="mobile-nav-icon">Recorr.</span>
         </NavLink>
       </nav>
     </div>

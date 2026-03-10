@@ -168,7 +168,7 @@ export default function Recurring() {
           <input className="app-input" value={method} onChange={(e) => setMethod(e.target.value)} placeholder="Método (opcional)" style={{ width: 180 }} />
         </div>
 
-        <textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Observações (opcional)" rows={2} />
+        <textarea className="app-input" value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Observações (opcional)" rows={2} />
 
         <div>
           <button className="app-btn" type="submit">Adicionar recorrência</button>

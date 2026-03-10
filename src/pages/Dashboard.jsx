@@ -497,12 +497,12 @@ export default function Dashboard() {
       {loading ? (
         <div>Carregando…</div>
       ) : (
-        <div style={{ display: "grid", gap: 12, gridTemplateColumns: "1.2fr 0.8fr" }}>
+        <div className="dashboard-top-grid">
           {/* Gráfico comparativo */}
-          <div style={{ border: "1px solid #e5e5e5", borderRadius: 12, padding: 14, minHeight: 320 }}>
+          <div className="app-card" style={{ padding: 14 }}>
             <div style={{ fontWeight: 900, marginBottom: 10 }}>Atual vs Anterior</div>
 
-            <div style={{ height: 260 }}>
+            <div className="chart-box">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData}>
                   <CartesianGrid strokeDasharray="3 3" />
@@ -518,14 +518,14 @@ export default function Dashboard() {
 
           {!loading && (
             <div className="app-card" style={{ padding: 14 }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 10}}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 10, flexWrap:"wrap",}}>
                 <div style={{ fontWeight: 900 }}>Últimos 6 meses</div>
                 <div className="app-muted" style={{ fontSize: 12 }}>
                   entradas, saídas e saldo
                 </div>
               </div>
 
-              <div style={{ height: 280, marginTop: 10 }}>
+              <div className="chart-box" style={{ marginTop: 10 }}>
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={history6}>
                     <CartesianGrid strokeDasharray="3 3" />
