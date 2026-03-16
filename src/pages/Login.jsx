@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../auth/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   const { signIn, signUp, user, loading } = useAuth();
@@ -55,6 +56,11 @@ export default function Login() {
 
         {msg && <div>{msg}</div>}
       </form>
+      <div style={{ marginTop: 16 }}>
+        <Link to="/privacy" className="app-muted">
+          Política de Privacidade
+        </Link>
+      </div>
     </div>
   );
 }
