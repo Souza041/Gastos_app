@@ -7,11 +7,14 @@ import Transactions from "../pages/Transactions";
 import Categories from "../pages/Categories";
 import Budgets from "../pages/Budgets";
 import Recurring from "../pages/Recurring";
+import Privacy from "../pages/Privacy";
 
 export default function App() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
+      <Route path="/privacy" element={<Privacy />} />
+      
       <Route
         path="/"
         element={
